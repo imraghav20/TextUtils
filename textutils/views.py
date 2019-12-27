@@ -1,14 +1,15 @@
 #I have created this file- Abhishek
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def home(request):
-    return HttpResponse('''<h1>HOME</h1> <br> <button type="button"> <a href="http://127.0.0.1:8000/removepunc/"> RemovePunctuation </a></button>
-<br> <button type="button"> <a href="http://127.0.0.1:8000/capitalizefirst/"> CapitaliseFirst </a></button>
-<br> <button type="button"> <a href="http://127.0.0.1:8000/newlineremove/"> NewLineRemove </a></button>
-<br> <button type="button"> <a href="http://127.0.0.1:8000/spaceremove/"> SpaceRemove </a></button>
-<br> <button type="button"> <a href="http://127.0.0.1:8000/charcount/"> CountCharacters </a></button>''')
+    return render(request, 'home.html')
 
 def removepunc(request):
+    #get the text
+    djtext = request.GET.get('text', 'default')
+    print (djtext)
+    #analyse the text
     return HttpResponse('''<h1>remove punctuation</h1> <br> <button type="button"> <a href="http://127.0.0.1:8000/"> GoBack </a></button>''')
 
 def capfirst(request):
