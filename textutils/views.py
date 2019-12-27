@@ -14,6 +14,7 @@ def analyze(request):
     fullcaps = request.GET.get('fullcaps', 'off')
     newlineremover = request.GET.get('newlineremover', 'off')
     extraspaceremover = request.GET.get('extraspaceremover', 'off')
+    charcount = request.GET.get('charcount', 'off')
 
     #Check which checkbox is on
     if removepunc == "on":
@@ -24,7 +25,30 @@ def analyze(request):
                 analyzed = analyzed + char
         params = {'purpose':'Removed Punctuations', 'analyzed_text': analyzed}
         return render(request, 'analyze.html', params)
-
+    elif fullcaps == "on":
+        analyzed = djtext.upper()
+        params = {'purpose':'Changed to Uppercase', 'analyzed_text': analyzed}
+        return render(request, 'analyze.html', params)
+    elif newlineremover == "on":
+        analyzed = ""
+        for char in djtext:
+            if char != '\n':
+                analyzed = analyzed + char
+        params = {'purpose':'Removed new lines', 'analyzed_text': analyzed}
+        return render(request, 'analyze.html', params)
+    elif extraspaceremover == "on":
+        analyzed = ""
+        for index, char in enumerate(djtext):
+            if not(djtext[index] == " " and djtext[index+1] == " "):
+                analyzed = analyzed + char
+        params = {'purpose':'Removed extra spaces', 'analyzed_text': analyzed}
+        return render(request, 'analyze.html', params)
+    elif charcount == "on":
+        k = 0
+        for i in djtext:
+            k+=1
+        params = {'purpose':'Counted characters', 'analyzed_text': 'Number of characters in entered text are ' + str(k)}
+        return render(request, 'analyze.html', params)
     else:
         return HttpResponse("Error")
 
